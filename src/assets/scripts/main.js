@@ -1,4 +1,3 @@
-// Seleccionar elementos del DOM
 const display = document.getElementById("display");
 const buttons = document.querySelectorAll(".btn");
 
@@ -45,7 +44,7 @@ function handleOperator(value) {
     if (operator === null) {
       previousValue = currentValue;
     } else {
-      calculateResult(false); // Calcula el resultado sin limpiar el display
+      calculateResult(false);
     }
     operator = value;
     displayValue += value;
@@ -54,7 +53,6 @@ function handleOperator(value) {
   }
 }
 
-// Función para realizar el cálculo
 function calculateResult(finalCalculation = true) {
   let result = 0;
   const prev = parseFloat(previousValue);
@@ -92,7 +90,6 @@ function calculateResult(finalCalculation = true) {
   updateDisplay(displayValue);
 }
 
-// Función para limpiar la pantalla y resetear la calculadora
 function clearDisplay() {
   displayValue = "";
   currentValue = "";
@@ -101,5 +98,4 @@ function clearDisplay() {
   updateDisplay("0");
 }
 
-// Inicializar la pantalla con 0
 clearDisplay();

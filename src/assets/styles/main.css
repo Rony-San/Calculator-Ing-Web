@@ -33,18 +33,13 @@ h1 {
   border: 2px solid var(--border-color);
   padding: 20px;
   border-radius: 10px;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.4
-  ); /* Fondo blanco con 80% de opacidad */
+  background-color: rgba(255, 255, 255, 0.4);
   box-shadow: 0 0 10px var(--box-shadow-color);
 }
 
 .calculator-display {
   margin: 0;
-  width: auto;
+
   height: 40px;
   margin-bottom: 10px;
   text-align: right;
@@ -58,6 +53,10 @@ h1 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+}
+
+.upper-content {
+  width: max-content;
 }
 
 .btn {
