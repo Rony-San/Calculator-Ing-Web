@@ -3,9 +3,12 @@ const buttons = document.querySelectorAll(".btn");
 
 let displayValue = "";
 let currentValue = "";
-let previousValue = "";
 let operator = null;
 
+/**
+ * Actualiza el contenido de la pantalla de la calculadora con el valor proporcionado.
+ * @param {string} value - El nuevo valor a mostrar en la pantalla.
+ */
 function updateDisplay(value) {
   display.value = value;
 }
@@ -24,6 +27,12 @@ buttons.forEach((button) => {
   });
 });
 
+/**
+ * Maneja la entrada de números y puntos decimales.
+ * Si se ingresa un punto decimal, asegura que solo se permita uno.
+ * Actualiza los valores de displayValue y currentValue, y refresca la pantalla.
+ * @param {string} value - El número o el punto decimal ingresado.
+ */
 function handleNumber(value) {
   if (value === "." && currentValue.includes(".")) return;
   currentValue += value;
@@ -31,69 +40,50 @@ function handleNumber(value) {
   updateDisplay(displayValue);
 }
 
+/**
+ * Maneja la entrada de operadores y la lógica de cálculo cuando se presiona "=".
+ * Si se presiona un operador, lo establece como el operador actual.
+ * Si se presiona "=", se calcula y muestra el resultado.
+ * @param {string} value - El operador ingresado o "=".
+ */
 function handleOperator(value) {
   if (value === "=") {
     calculateResult();
   } else {
-    if (currentValue === "" && previousValue !== "") {
-      operator = value;
+    if (currentValue === "" && operator !== null) {
       displayValue = displayValue.slice(0, -1) + value;
-      updateDisplay(displayValue);
-      return;
-    }
-    if (operator === null) {
-      previousValue = currentValue;
     } else {
-      calculateResult(false);
+      displayValue += value;
     }
     operator = value;
-    displayValue += value;
     updateDisplay(displayValue);
     currentValue = "";
   }
 }
 
-function calculateResult(finalCalculation = true) {
-  let result = 0;
-  const prev = parseFloat(previousValue);
-  const curr = parseFloat(currentValue);
-
-  if (isNaN(prev) || isNaN(curr)) return;
-
-  switch (operator) {
-    case "+":
-      result = prev + curr;
-      break;
-    case "-":
-      result = prev - curr;
-      break;
-    case "*":
-      result = prev * curr;
-      break;
-    case "/":
-      result = prev / curr;
-      break;
-    default:
-      return;
+/**
+ * Calcula el resultado de la operación actual utilizando `eval`.
+ * Muestra el resultado en la pantalla o un mensaje de error si la operación no es válida.
+ */
+function calculateResult() {
+  try {
+    const result = eval(displayValue);
+    displayValue = result.toString();
+    updateDisplay(displayValue);
+    currentValue = displayValue;
+    operator = null;
+  } catch (error) {
+    updateDisplay("Error");
   }
-
-  currentValue = result.toString();
-  previousValue = currentValue;
-
-  if (finalCalculation) {
-    displayValue = currentValue;
-  } else {
-    displayValue += currentValue;
-  }
-
-  operator = null;
-  updateDisplay(displayValue);
 }
 
+/**
+ * Resetea todos los valores y limpia la pantalla de la calculadora.
+ * Se utiliza cuando se presiona el botón de limpiar.
+ */
 function clearDisplay() {
   displayValue = "";
   currentValue = "";
-  previousValue = "";
   operator = null;
   updateDisplay("0");
 }
